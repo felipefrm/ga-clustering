@@ -20,7 +20,7 @@ for generation in range(ag.generations):
         children = ag.crossover(parent[0], parent[1])
         new_population.extend(children)  
     
-    ag.mutation(new_population)
+    ag.mutation(new_population,clustering.clusterCount)
     
     if (ag.elitism):
         random = randint(0, len(new_population)-1)  # sorteia um individuo

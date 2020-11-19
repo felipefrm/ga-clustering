@@ -131,9 +131,9 @@ class AG():
             return [parent1, parent2]
 
 
-    def mutation(self, population):
-        # muta um bit aleatorio 
+    def mutation(self, population,clusterCount):
+        # muda um elemento aleatorio de cluster 
         for ind in population:
             if randint(0,100) <= self.mutation_rate:
-                bit = randint(0, self.nbits-1)
-                ind.solution[bit] = abs(int(ind.solution[bit]) - 1)
+                obj = randint(0, self.nbits-1)
+                ind.solution[obj] = randint(0, clusterCount-1)
