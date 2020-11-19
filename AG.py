@@ -42,15 +42,15 @@ class AG():
             population.remove(population[0])
             return selected
 
-        sample = sample(range(len(population)), 2)  # sorteia 2 numeros aleatorios distintos
-        individual1 = population[sample[0]]
-        individual2 = population[sample[1]]
+        random = sample(range(len(population)), 2)  # sorteia 2 numeros aleatorios distintos
+        individual1 = population[random[0]]
+        individual2 = population[random[1]]
 
         # 2 individuos duelam, o que possui a maior avaliação na Fo tem maior de chance vencer o duelo
         # o fator de probabilidade de vitória está guardada no atributo "win_rate" da classe self
         r = randint(0, 100)
 
-        if individual1.fitness >= individual2.fitness:
+        if individual1.fitness < individual2.fitness:
             selected = individual1
             if (r >= self.win_rate):
                 selected = individual2
@@ -78,7 +78,7 @@ class AG():
         for ind in population:
             fitness.append(ind.fitness)
 
-        val, idx = max((val, idx) for (idx, val) in enumerate(fitness))
+        val, idx = min((val, idx) for (idx, val) in enumerate(fitness))
         bestIndividual = population[idx]     # salva o melhor individuo, independente se é viavel ou não
 
         return bestIndividual
@@ -89,7 +89,7 @@ class AG():
         for ind in population:
             fitness.append(ind.fitness)
 
-        val, idx = min((val, idx) for (idx, val) in enumerate(fitness))
+        val, idx = max((val, idx) for (idx, val) in enumerate(fitness))
 
         return population[idx]
 
