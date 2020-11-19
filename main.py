@@ -1,6 +1,7 @@
 from AG import *
 from Clustering import *
 from utils import *
+from constants import *
 
 (elements, clusters, attributesCount) = readDataset('dataset/iris.data')
 clustering = Clustering(elements, clusters, attributesCount)
