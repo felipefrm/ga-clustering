@@ -124,5 +124,6 @@ class AG():
         # muda um elemento aleatorio de cluster 
         for ind in population:
             if randint(0,100) <= self.mutation_rate:
-                obj = randint(0, self.nbits-1)
-                ind.solution[obj] = randint(0, clusterCount-1)
+                for j in range(0, int(self.nbits/10)):
+                    obj = randint(0, self.nbits-1)
+                    ind.solution[obj] = randint(0, clusterCount-1)
