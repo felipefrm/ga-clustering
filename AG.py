@@ -65,11 +65,11 @@ class AG():
         return selected
 
     def selection(self, current_population, new_population):
-        parent1 = self.roulette1(current_population)
+        parent1 = self.roulette(current_population)
         if (self.pop_size % 2 != 0 and len(new_population)+1 == self.pop_size):
             parent2 = parent1     # caso o tamanho da populacao seja impar, na ultima iteração do while vai sobrar acontecer só 1 torneio
         else:               # entao, o parent2 será o mesmo que o parent1
-            parent2 = self.roulette1(current_population)
+            parent2 = self.roulette(current_population)
         return [parent1, parent2]
 
     def roulette(self, population):
@@ -83,7 +83,7 @@ class AG():
             control += roulette[index]
             index += 1
         return population[index-1]
-        
+
 
     def getBestIndividual(self, population):
         # busca o melhor individuo da geração
