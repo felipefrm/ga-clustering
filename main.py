@@ -2,6 +2,9 @@ from AG import *
 from Clustering import *
 from utils import *
 from constants import *
+import time
+
+start = time.time()
 
 (elements, clusters, attributesCount) = readDataset('dataset/iris.data')
 clustering = Clustering(elements, clusters, attributesCount)
@@ -28,3 +31,6 @@ for generation in range(ag.generations):
         out = randint(0, len(new_population)-1)              # pega um individuo aleatorio
         # out = ag.getIndexOfWorstIndividual(new_population)   # pega o pior inidivduo
         new_population[out] = bestIndividual             # substitui individuo pelo melhor individuo da ultima geracao
+
+end = time.time()
+print(f'\nTime elapsed: {end - start} seconds')
