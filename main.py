@@ -4,7 +4,7 @@ from utils import *
 
 (elements, clusters, attributesCount) = readDataset('dataset/iris.data')
 clustering = Clustering(elements, clusters, attributesCount)
-ag  = AG(100, 100, 10, 100, 90, len(elements), True)
+ag  = AG(POP_SIZE, GENERATIONS, MUTATION_RATE, CROSSOVER_RATE, WIN_RATE, len(elements), ELITISM)
 new_population = ag.initPopulation(clustering.clusterCount)
 for generation in range(ag.generations):
     ag.fitPopulation(new_population, clustering)
