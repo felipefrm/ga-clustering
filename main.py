@@ -2,8 +2,8 @@ from AG import *
 from Clustering import *
 from utils import *
 
-(elements, clusters) = readDataset('dataset/iris.data')
-clustering = Clustering(elements, clusters)
+(elements, clusters, attributesCount) = readDataset('dataset/iris.data')
+clustering = Clustering(elements, clusters, attributesCount)
 ag  = AG(100, 100, 10, 100, 90, len(elements), True)
 new_population = ag.initPopulation(clustering.clusterCount)
 for generation in range(ag.generations):

@@ -1,5 +1,7 @@
 from random import randint, sample, random, uniform
+from math import sqrt
 from Individual import Individual
+from Clustering import Clustering
 
 class AG():
     def __init__(self, pop_size, generations, mutation_rate, cross_rate, win_rate, nbits, elitism):
@@ -21,30 +23,17 @@ class AG():
         return individual
 
     def fitPopulation(self, population, data):
-
         # Calculo centroide
-        parameters = [[] for i in range(data.clusterCount)]
         for ind in population:
+            Clustering.calculateCentroids(data, ind)
+            fo = 0
             for idx, val in enumerate(ind.solution):
-                parameters[val].append(data.elements[idx])
-            for cluster in range(data.clusterCount):
-                sumAttribute = [0 for i in range(len(parameters[0][0]))]
-                for element in range(len(parameters[cluster])):
-                    for i in range(len(parameters[0][0])):
-                        sumAttribute[i] += float(parameters[cluster][element][i])
-                meanAttribute = []
-                for i in range(len(parameters[0][0])):
-                    meanAttribute.append(sumAttribute[i]/len(parameters[cluster]))
-                ind.centroids.append(meanAttribute)
-
-        # for ind in population:
-
-        #     dist = [[] for i in range(data.clusterCount)]
-        #     for idx, val in enumerate(ind.solution):
-        #         euclidian = sqrt((ind.centroids[val][0]-xb)^2 + (ya-yb)^2 + (za-zb)^2)
-        #         dist[val].append()
-
-
+                data.elements[idx] = [float(i) for i in data.elements[idx]]
+                # print(f'esta é a solucao: {data.elements[idx]} / este é o centroide: {ind.centroids[val]}')
+                # print(ind.solution)
+                dist = [(a - b)**2 for a, b in zip(data.elements[idx], ind.centroids[val])]
+                fo += sqrt(sum(dist))
+            ind.fitness = fo                
   
     def tourney(self, population):
         # o ultimo individuo não terá adversário, logo é automaticamente escolhido
@@ -90,9 +79,9 @@ class AG():
             fitness.append(ind.fitness)
 
         val, idx = max((val, idx) for (idx, val) in enumerate(fitness))
-        melhorIndividual = population[idx]     # salva o melhor individuo, independente se é viavel ou não
+        bestIndividual = population[idx]     # salva o melhor individuo, independente se é viavel ou não
 
-        return melhorIndividual
+        return bestIndividual
 
     def getWorstIndividual(self, population):
         # busca o pior individuo da geração
@@ -117,13 +106,13 @@ class AG():
 
             children = []
 
-            filho1_s = parent1.solution[:cut] + parent2.solution[cut:]
-            filho1 = Individual(filho1_s)
-            children.append(filho1)
+            children1_s = parent1.solution[:cut] + parent2.solution[cut:]
+            children1 = Individual(children1_s)
+            children.append(children1)
 
-            filho2_s = parent2.solution[:cut] + parent1.solution[cut:]
-            filho2 = Individual(filho2_s)
-            children.append(filho2)
+            children2_s = parent2.solution[:cut] + parent1.solution[cut:]
+            children2 = Individual(children2_s)
+            children.append(children2)
             
             return children
 

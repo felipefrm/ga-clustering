@@ -4,7 +4,9 @@ def readDataset(filename):
     with open(filename) as f:
         for line in f:
             line = line.rstrip().split(',')
-            elements.append(line[:-1])
+            attributes = line[:-1]
+            elements.append(attributes)
             if line[-1] not in clusters:
                 clusters.append(line[-1])
-    return (elements, clusters)
+        
+    return (elements, clusters, len(attributes))
