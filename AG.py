@@ -22,19 +22,20 @@ class AG():
             individual.append(Individual(ind))
         return individual
 
+    def calculateFitness(self, data, ind):
+        fo = 0
+        for idx, val in enumerate(ind.solution):
+            data.elements[idx] = [float(i) for i in data.elements[idx]]
+            dist = [(a - b)**2 for a, b in zip(data.elements[idx], ind.centroids[val])]
+            fo += sqrt(sum(dist))
+        return fo                
+
     def fitPopulation(self, population, data):
         # Calculo centroide
         for ind in population:
             Clustering.calculateCentroids(data, ind)
-            fo = 0
-            for idx, val in enumerate(ind.solution):
-                data.elements[idx] = [float(i) for i in data.elements[idx]]
-                # print(f'esta é a solucao: {data.elements[idx]} / este é o centroide: {ind.centroids[val]}')
-                # print(ind.solution)
-                dist = [(a - b)**2 for a, b in zip(data.elements[idx], ind.centroids[val])]
-                fo += sqrt(sum(dist))
-            ind.fitness = fo                
-  
+            ind.fitness = self.calculateFitness(data, ind)
+
     def tourney(self, population):
         # o ultimo individuo não terá adversário, logo é automaticamente escolhido
         if len(population) == 1:
@@ -134,9 +135,8 @@ class AG():
 
 
     def mutation(self, population,clusterCount):
-        # muda um elemento aleatorio de cluster 
         for ind in population:
-            if randint(0,100) <= self.mutation_rate:
-                for j in range(0, int(self.nbits/10)):
+            if randint(0,100) <= self.mutation_rate: # cada individuo tem x% de chance de ser selecionado para mutacao
+                for j in range(0, self.nbits//self.mutation_rate): # cada bit tem x% de chance de ser mutado
                     obj = randint(0, self.nbits-1)
                     ind.solution[obj] = randint(0, clusterCount-1)
