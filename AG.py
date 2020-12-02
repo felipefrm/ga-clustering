@@ -113,15 +113,17 @@ class AG():
 
         if randint(0, 100) <= self.cross_rate:
             # realiza o cruzamento entre dois individuos
-            cut = randint(0, self.nbits)
+            cut = []
+            cut.append(randint(0, self.nbits))
+            cut.append(randint(cut[0], self.nbits))
 
             children = []
-
-            children1_s = parent1.solution[:cut] + parent2.solution[cut:]
+            children1_s = parent1.solution[:cut[0]] + parent2.solution[cut[0]:cut[1]] + parent1.solution[cut[1]:] 
             children1 = Individual(children1_s)
             children.append(children1)
 
-            children2_s = parent2.solution[:cut] + parent1.solution[cut:]
+            children2_s = parent2.solution[:cut[0]] + parent1.solution[cut[0]:cut[1]] + parent2.solution[cut[1]:] 
+            # print(len(children2_s))
             children2 = Individual(children2_s)
             children.append(children2)
             
